@@ -2,8 +2,10 @@ import pandas as pd
 import colorama
 from colorama import Fore, Back, Style
 import time
+import webbrowser
 
-pd.set_option('display.max_columns', 1000, 'display.max_colwidth', 1000, 'display.max_rows',1000)
+pd.set_option('display.max_columns', 1000)
+pd.set_option('display.width', 1000)
 
 #importing profiles data base
 
@@ -200,7 +202,7 @@ elif answer.upper()=="Y":
 print("\nGREAT! We're nearly there. Now you just need to tell us about your accomodation preferences.\n\n"+ Fore.GREEN + "Would you prefer to live:")
 time.sleep(1)
 
-answer= input(Fore.BLUE + "\nIn a room in a shared house \033[1m(A)\033[0m" + Fore.BLUE +"\nOn your own.\033[1m(B)\033[0m \n")
+answer= input(Fore.BLUE + "\nIn a room in a shared house \033[1m(A)\033[0m" + Fore.BLUE +"\nOn your own \033[1m(B)\033[0m \n")
 
 if answer.upper()!= "A" and answer.upper()!= "B":
     answer=input("Sorry, I couldn't understand that. \n"+ Fore.GREEN + "What do you prefer? \n Room in a house share \033[1m(A)\033[0m(R) \n Live on your own.\033[1m(B)\033[0m ")
@@ -234,10 +236,10 @@ houses_df_in_use= houses_df_in_use[["Name","cost_month","neighbourhood","distanc
 url_df=houses_df_in_use["url"].to_frame()
 
 
-def make_clickable(val):
-    return '<a href="{}">{}</a>'.format(val,val)
+#def make_clickable(val):
+#   return '<a href="{}">{}</a>'.format(val,val)
 
-houses_to_display=houses_df_in_use.style.format({"url": make_clickable})
+#houses_to_display=houses_df_in_use.style.format({"url": make_clickable})
 
 ## USER TO CHOOSE SPECIFIC ACCOMOTADION
 
@@ -245,7 +247,16 @@ print("\nPerfect! Let's look at the options we have here for you!\n")
 time.sleep(1)
 
 #print(houses_to_display)
-print(houses_df_in_use)
+houses_df_in_use_nourl = houses_df_in_use[['Name', 'cost_month', 'neighbourhood', 'distance', 'duration']]
+print(houses_df_in_use_nourl)
+
+answer= input(Fore.GREEN +f"Would you like to have a look at the place (A) or would you like to decide now (B)? \n" + Fore.RESET).upper()
+while answer == 'A':
+    answer= input(Fore.GREEN +f"Please choose the place you would like to see ( {acomm_type}"+" + number)\n" + Fore.RESET).capitalize()
+    url_chosen = str(houses_df_in_use[houses_df_in_use['Name'] == answer]['url'].values[0])
+    print(url_chosen)
+    webbrowser.open(url_chosen)
+    answer= input(Fore.GREEN +f"Would you like to have a look at the place (A) or would you like to decide now (B)? \n" + Fore.RESET).upper()
 
 
 answer= input(Fore.GREEN +f"Please choose the place you would like to move in to ( {acomm_type}"+" + number)\n" + Fore.RESET)
@@ -270,4 +281,4 @@ budget=int(budget+int(accm_cost))
 print( Fore.RESET + "\nTHANK YOU! That was all. \n\nWe're now in position to give you an estimate of your cost of living in " + city + ". \n")
 time.sleep(0.5)
 
-print(f"\033[1m{name}\033[0m, based on your profile, taste and choices, you should expect to spend an average of \033[1m{budget}\033[0m € per month. \nYou can start packing now! \nHAVE FUN!")
+print(f"\033[1m{name}\033[0m, based on your profile, taste and choices, you should expect to spend an average of " + Fore.GREEN + f"\033[1m{budget}\033[0m" + Fore.GREEN + "€" + Fore.RESET + " per month. \nYou can start packing now! \nHAVE FUN!")

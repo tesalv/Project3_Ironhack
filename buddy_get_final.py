@@ -112,6 +112,8 @@ elif answer.upper()=="B":
     Profiles="Mid"
 elif answer.upper()=="C":
     Profiles="Upper"
+elif answer.upper()!="A" and answer.upper()!="B" and answer.upper()!="C":
+    answer=input("Sorry, I couldn't understand that. \nHmmm the normal amount I guess? (\033[1mA\033[0m) \nI can eat in and chill at home but I also love to explore a lot of the restaurantes and bars of the city! (\033[1mB\033[0m) \nC'mon, I'm moving to a new city, plus I'm not the best cook, I want to explore most of the bars and restaurants I can!! (\033[1mC\033[0m)")
 
 ## UPDATING THE BUDGET BASED ON THE PROFILE
 budget=0
